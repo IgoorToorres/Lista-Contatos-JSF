@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: lista-contatos-db
+    environment:
+      POSTGRES_DB: lista_contatos
+      POSTGRES_USER: lista_contatos
+      POSTGRES_PASSWORD: lista_contatos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lista_contatos -d lista_contatos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+    container_name: lista-contatos-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/lista_contatos
+      SPRING_DATASOURCE_USERNAME: lista_contatos
+      SPRING_DATASOURCE_PASSWORD: lista_contatos
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

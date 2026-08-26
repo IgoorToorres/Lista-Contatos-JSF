@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: lista-contatos
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/lista_contatos}
+    username: ${SPRING_DATASOURCE_USERNAME:lista_contatos}
+    password: ${SPRING_DATASOURCE_PASSWORD:lista_contatos}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: ${SERVER_PORT:8080}
