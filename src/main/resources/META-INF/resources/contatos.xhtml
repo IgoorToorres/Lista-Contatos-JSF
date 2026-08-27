@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces">
+
+<h:head>
+    <title>Lista de Contatos</title>
+</h:head>
+
+<h:body>
+    <h:form id="formContato">
+        <p:panel header="Cadastro de Contato">
+            <p:messages id="mensagens" />
+
+            <p:outputLabel value="Nome" for="nome" />
+            <p:inputText id="nome" value="#{contatoBean.contato.nome}" />
+
+            <p:outputLabel value="Email" for="email" />
+            <p:inputText id="email" value="#{contatoBean.contato.email}" />
+
+            <p:outputLabel value="Telefone" for="telefone" />
+            <p:inputText id="telefone" value="#{contatoBean.contato.telefone}" />
+
+            <p:outputLabel value="Categoria" for="categoria" />
+            <p:selectOneMenu id="categoria" value="#{contatoBean.contato.categoria}">
+                <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{contatoBean.categorias}"
+                               var="categoria"
+                               itemLabel="#{categoria}"
+                               itemValue="#{categoria}" />
+            </p:selectOneMenu>
+
+            <p:commandButton
+                    value="Salvar"
+                    action="#{contatoBean.salvar}"
+                    update="formContato" />
+
+            <h:panelGroup rendered="#{not empty contatoBean.contatoSalvo}">
+                <p>
+                    Contato salvo:
+                    <strong>#{contatoBean.contatoSalvo.nome}</strong>
+                    -
+                    <strong>#{contatoBean.contatoSalvo.email}</strong>
+                    -
+                    <strong>#{contatoBean.contatoSalvo.telefone}</strong>
+                    -
+                    <strong>#{contatoBean.contatoSalvo.categoria}</strong>
+                </p>
+            </h:panelGroup>
+        </p:panel>
+
+        <p:panel header="Contatos Cadastrados">
+            <p:dataTable value="#{contatoBean.contatos}"
+                         var="contato"
+                         emptyMessage="Nenhum contato cadastrado.">
+
+                <p:column headerText="Nome">
+                    <h:outputText value="#{contato.nome}" />
+                </p:column>
+
+                <p:column headerText="Email">
+                    <h:outputText value="#{contato.email}" />
+                </p:column>
+
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{contato.telefone}" />
+                </p:column>
+
+                <p:column headerText="Categoria">
+                    <h:outputText value="#{contato.categoria}" />
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>
