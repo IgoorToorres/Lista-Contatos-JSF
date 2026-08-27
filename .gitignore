@@ -13,6 +13,9 @@ target/
 .env.*
 !.env.example
 
+### Local project guide ###
+GUIA_PROJETO_LISTA_CONTATOS.md
+
 ### OS ###
 .DS_Store
 
