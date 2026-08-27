@@ -22,8 +22,8 @@
             <section class="surface-section">
                 <div class="section-header">
                     <div>
-                        <h2>Novo contato</h2>
-                        <p>Dados principais</p>
+                        <h2>#{contatoBean.editando ? 'Editar contato' : 'Novo contato'}</h2>
+                        <p>#{contatoBean.editando ? 'Atualize os dados do registro selecionado' : 'Dados principais'}</p>
                     </div>
                 </div>
 
@@ -73,7 +73,15 @@
                 </div>
 
                 <div class="form-actions">
-                    <p:commandButton value="Salvar"
+                    <p:commandButton value="Cancelar"
+                                     icon="pi pi-times"
+                                     action="#{contatoBean.cancelarEdicao}"
+                                     update="formContato"
+                                     styleClass="secondary-action"
+                                     rendered="#{contatoBean.editando}"
+                                     process="@this" />
+
+                    <p:commandButton value="#{contatoBean.editando ? 'Atualizar' : 'Salvar'}"
                                      icon="pi pi-save"
                                      action="#{contatoBean.salvar}"
                                      update="formContato"
@@ -126,16 +134,25 @@
                     </p:column>
 
                     <p:column headerText="Ações" styleClass="actions-column">
-                        <p:commandButton icon="pi pi-trash"
-                                         title="Excluir contato"
-                                         action="#{contatoBean.deletarContato(contato)}"
-                                         update="formContato"
-                                         styleClass="danger-action"
-                                         process="@this">
-                            <p:confirm header="Confirmar exclusão"
-                                       message="Deseja excluir este contato?"
-                                       icon="pi pi-exclamation-triangle" />
-                        </p:commandButton>
+                        <div class="table-actions">
+                            <p:commandButton icon="pi pi-pencil"
+                                             title="Editar contato"
+                                             action="#{contatoBean.editarContato(contato)}"
+                                             update="formContato"
+                                             styleClass="secondary-action"
+                                             process="@this" />
+
+                            <p:commandButton icon="pi pi-trash"
+                                             title="Excluir contato"
+                                             action="#{contatoBean.deletarContato(contato)}"
+                                             update="formContato"
+                                             styleClass="danger-action"
+                                             process="@this">
+                                <p:confirm header="Confirmar exclusão"
+                                           message="Deseja excluir este contato?"
+                                           icon="pi pi-exclamation-triangle" />
+                            </p:commandButton>
+                        </div>
                     </p:column>
                 </p:dataTable>
 

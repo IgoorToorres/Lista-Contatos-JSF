@@ -34,11 +34,19 @@ public class ContatoBean implements Serializable {
     }
 
     public void salvar() {
+
+        boolean editando = isEditando();
+
         this.contatoSalvo = contatoService.salvar(contato);
         this.contato = new Contato();
         this.contatos = contatoService.listar();
 
-        adicionarMensagemSucesso("Contato salvo com sucesso");
+        if(editando){
+            adicionarMensagemSucesso("Contato atualizado com sucesso");
+        }else{
+            adicionarMensagemSucesso("Contato salvo com sucesso");
+        }
+
     }
 
     public Contato getContato(){
@@ -58,10 +66,24 @@ public class ContatoBean implements Serializable {
     }
 
     public void deletarContato(Contato contato){
-        contatoService.delete(contato);
+        contatoService.inativar(contato);
         this.contatos = contatoService.listar();
 
-        adicionarMensagemSucesso("Contato excluido com sucesso");
+        adicionarMensagemSucesso("Contato excluído com sucesso");
+    }
+
+    public void editarContato(Contato contato){
+        this.contato = contato;
+        this.contatoSalvo = null;
+    }
+
+    public boolean isEditando(){
+        return this.contato != null && this.contato.getId() != null;
+    }
+
+    public void cancelarEdicao(){
+        this.contato = new Contato();
+        this.contatos = contatoService.listar();
     }
 
     private void adicionarMensagemSucesso(String mensagem){

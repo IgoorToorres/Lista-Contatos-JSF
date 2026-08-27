@@ -20,10 +20,12 @@ public class ContatoService {
     }
 
     public List<Contato> listar(){
-        return repository.findAll();
+        return repository.findByAtivoTrue();
     }
 
-    public void delete(Contato contato){
-        repository.delete(contato);
+    public void inativar(Contato contato){
+        contato.setAtivo(false);
+        repository.save(contato);
     }
+
 }

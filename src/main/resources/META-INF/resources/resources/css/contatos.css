@@ -116,6 +116,7 @@ body {
 
 .form-actions {
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
     margin-top: 18px;
 }
@@ -200,8 +201,14 @@ body {
 }
 
 .actions-column {
-    width: 92px;
+    width: 132px;
     text-align: center;
+}
+
+.table-actions {
+    display: inline-flex;
+    gap: 8px;
+    justify-content: center;
 }
 
 .category-tag {
