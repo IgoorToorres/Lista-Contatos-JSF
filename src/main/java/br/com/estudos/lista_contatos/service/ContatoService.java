@@ -22,4 +22,8 @@ public class ContatoService {
     public List<Contato> listar(){
         return repository.findAll();
     }
+
+    public void delete(Contato contato){
+        repository.delete(contato);
+    }
 }

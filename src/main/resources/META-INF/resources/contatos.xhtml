@@ -6,72 +6,151 @@
 
 <h:head>
     <title>Lista de Contatos</title>
+    <h:outputStylesheet library="css" name="contatos.css" />
 </h:head>
 
 <h:body>
-    <h:form id="formContato">
-        <p:panel header="Cadastro de Contato">
-            <p:messages id="mensagens" />
+    <main class="page-shell">
+        <header class="page-header">
+            <div>
+                <h1>Lista de Contatos</h1>
+                <p>Cadastro e consulta de contatos</p>
+            </div>
+        </header>
 
-            <p:outputLabel value="Nome" for="nome" />
-            <p:inputText id="nome" value="#{contatoBean.contato.nome}" />
+        <h:form id="formContato" styleClass="content-grid">
+            <section class="surface-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Novo contato</h2>
+                        <p>Dados principais</p>
+                    </div>
+                </div>
 
-            <p:outputLabel value="Email" for="email" />
-            <p:inputText id="email" value="#{contatoBean.contato.email}" />
+                <p:messages id="mensagens" showDetail="true" closable="true" />
 
-            <p:outputLabel value="Telefone" for="telefone" />
-            <p:inputText id="telefone" value="#{contatoBean.contato.telefone}" />
+                <div class="form-grid">
+                    <div class="field field-wide">
+                        <p:outputLabel value="Nome" for="nome" />
+                        <p:inputText id="nome"
+                                     value="#{contatoBean.contato.nome}"
+                                     placeholder="Nome completo"
+                                     required="true"
+                                     styleClass="w-full" />
+                    </div>
 
-            <p:outputLabel value="Categoria" for="categoria" />
-            <p:selectOneMenu id="categoria" value="#{contatoBean.contato.categoria}">
-                <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
-                <f:selectItems value="#{contatoBean.categorias}"
-                               var="categoria"
-                               itemLabel="#{categoria}"
-                               itemValue="#{categoria}" />
-            </p:selectOneMenu>
+                    <div class="field">
+                        <p:outputLabel value="Email" for="email" />
+                        <p:inputText id="email"
+                                     value="#{contatoBean.contato.email}"
+                                     placeholder="nome@email.com"
+                                     required="true"
+                                     styleClass="w-full" />
+                    </div>
 
-            <p:commandButton
-                    value="Salvar"
-                    action="#{contatoBean.salvar}"
-                    update="formContato" />
+                    <div class="field">
+                        <p:outputLabel value="Telefone" for="telefone" />
+                        <p:inputText id="telefone"
+                                     value="#{contatoBean.contato.telefone}"
+                                     placeholder="(11) 99999-9999"
+                                     required="true"
+                                     styleClass="w-full" />
+                    </div>
 
-            <h:panelGroup rendered="#{not empty contatoBean.contatoSalvo}">
-                <p>
-                    Contato salvo:
+                    <div class="field">
+                        <p:outputLabel value="Categoria" for="categoria" />
+                        <p:selectOneMenu id="categoria"
+                                         value="#{contatoBean.contato.categoria}"
+                                         required="true"
+                                         styleClass="w-full">
+                            <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{contatoBean.categorias}"
+                                           var="categoria"
+                                           itemLabel="#{categoria}"
+                                           itemValue="#{categoria}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <p:commandButton value="Salvar"
+                                     icon="pi pi-save"
+                                     action="#{contatoBean.salvar}"
+                                     update="formContato"
+                                     styleClass="primary-action" />
+                </div>
+
+                <h:panelGroup layout="block"
+                              styleClass="success-summary"
+                              rendered="#{not empty contatoBean.contatoSalvo}">
+                    <span class="summary-label">Contato salvo</span>
                     <strong>#{contatoBean.contatoSalvo.nome}</strong>
-                    -
-                    <strong>#{contatoBean.contatoSalvo.email}</strong>
-                    -
-                    <strong>#{contatoBean.contatoSalvo.telefone}</strong>
-                    -
-                    <strong>#{contatoBean.contatoSalvo.categoria}</strong>
-                </p>
-            </h:panelGroup>
-        </p:panel>
+                    <span>#{contatoBean.contatoSalvo.email}</span>
+                    <span>#{contatoBean.contatoSalvo.telefone}</span>
+                    <span>#{contatoBean.contatoSalvo.categoria}</span>
+                </h:panelGroup>
+            </section>
 
-        <p:panel header="Contatos Cadastrados">
-            <p:dataTable value="#{contatoBean.contatos}"
-                         var="contato"
-                         emptyMessage="Nenhum contato cadastrado.">
+            <section class="surface-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Contatos cadastrados</h2>
+                        <p>Registros salvos no banco</p>
+                    </div>
+                </div>
 
-                <p:column headerText="Nome">
-                    <h:outputText value="#{contato.nome}" />
-                </p:column>
+                <p:dataTable value="#{contatoBean.contatos}"
+                             var="contato"
+                             emptyMessage="Nenhum contato cadastrado."
+                             reflow="true"
+                             rowHover="true"
+                             stripedRows="true"
+                             styleClass="contacts-table">
 
-                <p:column headerText="Email">
-                    <h:outputText value="#{contato.email}" />
-                </p:column>
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{contato.nome}" />
+                    </p:column>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{contato.telefone}" />
-                </p:column>
+                    <p:column headerText="Email">
+                        <h:outputText value="#{contato.email}" />
+                    </p:column>
 
-                <p:column headerText="Categoria">
-                    <h:outputText value="#{contato.categoria}" />
-                </p:column>
-            </p:dataTable>
-        </p:panel>
-    </h:form>
+                    <p:column headerText="Telefone">
+                        <h:outputText value="#{contato.telefone}" />
+                    </p:column>
+
+                    <p:column headerText="Categoria">
+                        <span class="category-tag categoria-#{contato.categoria}">
+                            <h:outputText value="#{contato.categoria}" />
+                        </span>
+                    </p:column>
+
+                    <p:column headerText="Ações" styleClass="actions-column">
+                        <p:commandButton icon="pi pi-trash"
+                                         title="Excluir contato"
+                                         action="#{contatoBean.deletarContato(contato)}"
+                                         update="formContato"
+                                         styleClass="danger-action"
+                                         process="@this">
+                            <p:confirm header="Confirmar exclusão"
+                                       message="Deseja excluir este contato?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Cancelar"
+                                     type="button"
+                                     styleClass="ui-confirmdialog-no secondary-action"
+                                     icon="pi pi-times" />
+                    <p:commandButton value="Excluir"
+                                     type="button"
+                                     styleClass="ui-confirmdialog-yes danger-action"
+                                     icon="pi pi-trash" />
+                </p:confirmDialog>
+            </section>
+        </h:form>
+    </main>
 </h:body>
 </html>

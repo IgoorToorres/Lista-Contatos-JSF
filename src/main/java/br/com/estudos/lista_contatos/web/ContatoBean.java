@@ -4,6 +4,8 @@ import br.com.estudos.lista_contatos.model.CategoriaContato;
 import br.com.estudos.lista_contatos.model.Contato;
 import br.com.estudos.lista_contatos.service.ContatoService;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,8 @@ public class ContatoBean implements Serializable {
         this.contatoSalvo = contatoService.salvar(contato);
         this.contato = new Contato();
         this.contatos = contatoService.listar();
+
+        adicionarMensagemSucesso("Contato salvo com sucesso");
     }
 
     public Contato getContato(){
@@ -51,5 +55,17 @@ public class ContatoBean implements Serializable {
 
     public CategoriaContato[] getCategorias(){
         return CategoriaContato.values();
+    }
+
+    public void deletarContato(Contato contato){
+        contatoService.delete(contato);
+        this.contatos = contatoService.listar();
+
+        adicionarMensagemSucesso("Contato excluido com sucesso");
+    }
+
+    private void adicionarMensagemSucesso(String mensagem){
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, null));
     }
 }
